@@ -14,7 +14,7 @@ const ECSCourseLanding = () => {
 
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e: { target: { name: any; value: any; }; }) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value
