@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Endocannabinoid System: Optimization Without Cannabis",
-  description: "Activate your ECS naturally through fitness, nutrition, and neuroscience techniques",
+  title: "Master Your Body's Hidden Cannabis System",
+  description: "The most important discovery in modern medicine that 99% of people don't know about. Learn the science-based system working in your body right now.",
 };
 
 export default function RootLayout({
