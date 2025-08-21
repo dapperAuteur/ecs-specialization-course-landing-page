@@ -2,7 +2,7 @@
 
 import { NextResponse } from "next/server";
 import { getServerSession } from "next-auth/next";
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { authOptions } from "@/lib/authOptions";
 import dbConnect from "@/lib/db/dbConnect";
 import Lead from "@/models/Lead";
 import { Logger, LogContext } from "@/logging/logger";
