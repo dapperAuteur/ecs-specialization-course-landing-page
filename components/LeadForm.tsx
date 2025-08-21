@@ -1,18 +1,8 @@
-// app/page.tsx
-
 "use client"
 
 import React, { useState } from 'react';
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from 'react-google-recaptcha-v3';
+import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { CheckCircle, ArrowRight, AlertTriangle } from 'lucide-react';
-import Footer from '@/components/Footer';
-import Hero from '@/components/Hero';
-import Stats from '@/components/Stats';
-import ProblemStatement from '@/components/ProblemStatement';
-import CourseFeatures from '@/components/CourseFeatures';
-import CourseCurriculum from '@/components/CourseCurriculum';
-import SpecializationTracks from '@/components/SpecializationTracks';
-import ScientificEvidence from '@/components/ScientificEvidence';
 
 /**
  * The main form component, which includes reCAPTCHA logic.
@@ -217,48 +207,4 @@ const LeadForm = () => {
   );
 };
 
-/**
- * The main page component, wrapping the application with the reCAPTCHA provider.
- */
-const ECSCourseLanding = () => {
-  const recaptchaSiteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-
-  if (!recaptchaSiteKey) {
-    return (
-      <div className="flex items-center justify-center h-screen bg-red-50">
-        <div className="text-center p-8 bg-white shadow-lg rounded-lg">
-          <AlertTriangle className="w-12 h-12 text-red-500 mx-auto mb-4" />
-          <h2 className="text-2xl font-bold text-red-700">Configuration Error</h2>
-          <p className="text-red-600 mt-2">The reCAPTCHA Site Key is not configured. Please check your environment variables.</p>
-        </div>
-      </div>
-    );
-  }
-
-  return (
-    <GoogleReCaptchaProvider reCaptchaKey={recaptchaSiteKey}>
-      <div className="min-h-screen bg-gradient-to-br from-slate-50 to-blue-50">
-        <Hero />
-        <Stats />
-        <ProblemStatement />
-        <CourseFeatures />
-        <CourseCurriculum />
-        <SpecializationTracks />
-        <ScientificEvidence />
-
-        {/* Lead Form Section */}
-        <div className="py-20 bg-gradient-to-r from-blue-900 to-purple-900">
-          <div className="container mx-auto px-6">
-            <div className="max-w-2xl mx-auto">
-              <LeadForm />
-            </div>
-          </div>
-        </div>
-
-        <Footer />
-      </div>
-    </GoogleReCaptchaProvider>
-  );
-};
-
-export default ECSCourseLanding;
+export default LeadForm;
