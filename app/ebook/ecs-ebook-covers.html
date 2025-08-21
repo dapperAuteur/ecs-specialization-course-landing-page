@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECS Ebook Covers</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+            line-height: 1.6;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+            padding: 2rem;
+        }
+
+        .cover-container {
+            max-width: 800px;
+            margin: 0 auto 4rem auto;
+            background: white;
+            border-radius: 24px;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .cover-container:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 35px 60px -12px rgba(0, 0, 0, 0.3);
+        }
+
+        .cover-header {
+            background: linear-gradient(135deg, #1e3a8a 0%, #7c3aed 50%, #4338ca 100%);
+            position: relative;
+            padding: 4rem 2rem;
+            text-align: center;
+            overflow: hidden;
+        }
+
+        .cover-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1;
+        }
+
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            animation: pulse 3s ease-in-out infinite;
+        }
+
+        .circle-1 {
+            width: 256px;
+            height: 256px;
+            background: rgba(59, 130, 246, 0.1);
+            top: 80px;
+            left: 80px;
+            animation-delay: 0s;
+        }
+
+        .circle-2 {
+            width: 192px;
+            height: 192px;
+            background: rgba(147, 51, 234, 0.1);
+            bottom: 80px;
+            right: 80px;
+            animation-delay: 300ms;
+        }
+
+        .circle-3 {
+            width: 384px;
+            height: 384px;
+            background: rgba(99, 102, 241, 0.05);
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation-delay: 700ms;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.7; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        .cover-content {
+            position: relative;
+            z-index: 2;
+            color: white;
+        }
+
+        .series-badge {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 12px;
+            padding: 0.75rem 1.5rem;
+            margin-bottom: 1.5rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cover-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            line-height: 1.1;
+        }
+
+        .cover-subtitle {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+            background: linear-gradient(135deg, #60a5fa 0%, #a78bfa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .cover-description {
+            font-size: 1.25rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto 2rem auto;
+        }
+
+        .feature-badges {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .feature-badge {
+            background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
+            border-radius: 8px;
+            padding: 0.5rem 1rem;
+            font-size: 0.875rem;
+            font-weight: 600;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cover-body {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .author-section {
+            margin-bottom: 2rem;
+        }
+
+        .author-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 0.5rem;
+        }
+
+        .author-credentials {
+            font-size: 1.125rem;
+            color: #6b7280;
+            font-style: italic;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 2rem;
+            margin: 2rem 0;
+            padding: 2rem;
+            background: linear-gradient(135deg, #f8fafc 0%, #e0f2fe 100%);
+            border-radius: 16px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: 800;
+            color: #1e40af;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 600;
+        }
+
+        .specialization-preview {
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0e7ff 100%);
+            border-radius: 16px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .specialization-title {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #1f2937;
+            margin-bottom: 1rem;
+        }
+
+        .specialization-tracks {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .track-item {
+            background: white;
+            border-radius: 12px;
+            padding: 1.5rem;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            border: 2px solid transparent;
+            transition: all 0.3s ease;
+        }
+
+        .track-item:hover {
+            border-color: #3b82f6;
+            transform: translateY(-2px);
+        }
+
+        .track-icon {
+            width: 48px;
+            height: 48px;
+            margin: 0 auto 1rem auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 12px;
+            font-size: 1.5rem;
+        }
+
+        .fitness-icon {
+            background: linear-gradient(135deg, #3b82f6 0%, #1d4ed8 100%);
+            color: white;
+        }
+
+        .nutrition-icon {
+            background: linear-gradient(135deg, #10b981 0%, #047857 100%);
+            color: white;
+        }
+
+        .neuro-icon {
+            background: linear-gradient(135deg, #8b5cf6 0%, #7c3aed 100%);
+            color: white;
+        }
+
+        .track-name {
+            font-weight: 600;
+            color: #1f2937;
+            font-size: 0.875rem;
+        }
+
+        .disclaimer {
+            background: #f3f4f6;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-top: 2rem;
+            font-size: 0.875rem;
+            color: #6b7280;
+            text-align: left;
+        }
+
+        .mini-cover .cover-title {
+            font-size: 2.5rem;
+        }
+
+        .mini-cover .cover-description {
+            font-size: 1.125rem;
+        }
+
+        .mini-badge {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-weight: 700;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-bottom: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .cover-title {
+                font-size: 2.5rem;
+            }
+            
+            .mini-cover .cover-title {
+                font-size: 2rem;
+            }
+            
+            .cover-description {
+                font-size: 1.125rem;
+            }
+            
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- FULL EBOOK COVER -->
+    <div class="cover-container">
+        <div class="cover-header">
+            <div class="animated-bg">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <div class="cover-content">
+                <div class="series-badge">ECS Specialization Course</div>
+                <h1 class="cover-title">Your Body's Hidden Cannabis System</h1>
+                <h2 class="cover-subtitle">The Endocannabinoid System Discovery That's Changing Medicine</h2>
+                <p class="cover-description">
+                    A complete guide to understanding and optimizing your natural cannabis network through science-based fitness, nutrition, and neuroscience approaches
+                </p>
+                <div class="feature-badges">
+                    <span class="feature-badge">✓ Science-Based</span>
+                    <span class="feature-badge">✓ 40+ Years Research</span>
+                    <span class="feature-badge">✓ Peer-Reviewed Sources</span>
+                    <span class="feature-badge">✓ Complete Specialization</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cover-body">
+            <div class="author-section">
+                <div class="author-name">[Your Name]</div>
+                <div class="author-credentials">40+ Years of Endocannabinoid Research</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">40+</div>
+                    <div class="stat-label">Years Research</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">12,272</div>
+                    <div class="stat-label">Published Studies</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500M</div>
+                    <div class="stat-label">Years Evolution</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Specialization Tracks</div>
+                </div>
+            </div>
+            
+            <div class="specialization-preview">
+                <div class="specialization-title">Complete ECS Specialization Program</div>
+                <div class="specialization-tracks">
+                    <div class="track-item">
+                        <div class="track-icon fitness-icon">💪</div>
+                        <div class="track-name">Fitness for ECS Activation</div>
+                    </div>
+                    <div class="track-item">
+                        <div class="track-icon nutrition-icon">🥗</div>
+                        <div class="track-name">Nutrition for ECS Optimization</div>
+                    </div>
+                    <div class="track-item">
+                        <div class="track-icon neuro-icon">🧠</div>
+                        <div class="track-name">Neuroscience & Mindfulness</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                <strong>Educational Purpose:</strong> This ebook provides foundational knowledge from the ECS Specialization Course. All scientific citations are included for educational purposes. This information is not medical advice. Consult qualified healthcare providers for medical concerns.
+            </div>
+        </div>
+    </div>
+
+    <!-- MINI EBOOK COVER -->
+    <div class="cover-container mini-cover">
+        <div class="cover-header">
+            <div class="animated-bg">
+                <div class="circle circle-1"></div>
+                <div class="circle circle-2"></div>
+                <div class="circle circle-3"></div>
+            </div>
+            <div class="cover-content">
+                <div class="mini-badge">Quick Start Guide</div>
+                <div class="series-badge">ECS Specialization Course</div>
+                <h1 class="cover-title">Your Body's Hidden Cannabis System</h1>
+                <h2 class="cover-subtitle">The Amazing Discovery Your Doctor Doesn't Know About</h2>
+                <p class="cover-description">
+                    A simple guide to the secret system in your body that controls stress, sleep, pain, and happiness
+                </p>
+                <div class="feature-badges">
+                    <span class="feature-badge">✓ 6th Grade Reading Level</span>
+                    <span class="feature-badge">✓ Science Made Simple</span>
+                    <span class="feature-badge">✓ Course Preview</span>
+                </div>
+            </div>
+        </div>
+        
+        <div class="cover-body">
+            <div class="author-section">
+                <div class="author-name">[Your Name]</div>
+                <div class="author-credentials">40+ Years Studying How Your Body Works</div>
+            </div>
+            
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number">3</div>
+                    <div class="stat-label">Easy Pages</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">6th</div>
+                    <div class="stat-label">Grade Level</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">100%</div>
+                    <div class="stat-label">Science-Based</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">Free</div>
+                    <div class="stat-label">Course Teaser</div>
+                </div>
+            </div>
+            
+            <div class="specialization-preview">
+                <div class="specialization-title">What You'll Discover</div>
+                <div style="text-align: left; max-width: 500px; margin: 0 auto;">
+                    <p style="margin-bottom: 1rem; color: #4b5563;">✓ Why your body has spots for cannabis chemicals</p>
+                    <p style="margin-bottom: 1rem; color: #4b5563;">✓ How your hidden system controls stress and pain</p>
+                    <p style="margin-bottom: 1rem; color: #4b5563;">✓ Simple ways to make your system work better</p>
+                    <p style="margin-bottom: 1rem; color: #4b5563;">✓ Preview of the complete specialization program</p>
+                </div>
+            </div>
+            
+            <div class="disclaimer">
+                <strong>Perfect for Beginners:</strong> This simplified guide makes complex science easy to understand. It's designed as an introduction to prepare you for the complete ECS Specialization Course covering fitness, nutrition, and neuroscience applications.
+            </div>
+        </div>
+    </div>
+</body>
+</html>
