@@ -4,8 +4,9 @@
 // Simple client-side logger for the study functionality
 export enum LogContext {
   AUTH = "auth",
-  FLASHCARD = "flashcard",
-  STUDY = "study",
+  USER_FORM_SUBMISSION = "user_form_submission",
+  USER_LOGIN = "user_login",
+  USER_SIGNUP = "user_signup",
   SYSTEM = "system"
 }
 

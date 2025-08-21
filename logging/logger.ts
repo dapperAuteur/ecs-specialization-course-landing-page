@@ -14,10 +14,7 @@ export enum LogLevel {
 // Context types to organize logs
 export enum LogContext {
   AUTH = "auth",
-  FLASHCARD = "flashcard",
-  AI = "ai",
   USER = "user",
-  STUDY = "study",
   SYSTEM = "system"
 }
 
@@ -190,15 +187,7 @@ export class Logger {
 export class AnalyticsLogger {
   // Event types for analytics
   static EventType = {
-    AI_GENERATED: "ai_generated",
-    AI_PROMPT_SUBMITTED: "ai_prompt_submitted",
-    FLASHCARD_CREATED: "flashcard_created",
-    FLASHCARD_SET_SAVED: "flashcard_set_saved",
-    FLASHCARD_STUDIED: "flashcard_studied",
-    LIST_EXPORTED: "list_exported",
-    LIST_IMPORTED: "list_imported",
-    SHARED_FLASHCARDS_USED: "shared_flashcards_used",
-    SHARED_FLASHCARDS_VIEWED: "shared_flashcards_viewed",
+    USER_FORM_SUBMISSION: "user_form_submission",
     USER_LOGIN: "user_login",
     USER_SIGNUP: "user_signup"
   };
@@ -270,88 +259,39 @@ export class AnalyticsLogger {
 
   // Map event types to log contexts
   private static getContextFromEventType(eventType: string): LogContext {
-    if (eventType.startsWith("flashcard_")) return LogContext.FLASHCARD;
-    if (eventType.startsWith("ai_")) return LogContext.AI;
     if (eventType.startsWith("user_")) return LogContext.USER;
     return LogContext.SYSTEM;
   }
 
   // Specific tracking methods for common events
-  static async trackFlashcardCreated(userId: string, flashcardData: any): Promise<string | null> {
+  static async trackUserFormSubmission(userId: string, formData: any): Promise<string | null> {
     return this.trackEvent({
       userId,
-      eventType: this.EventType.FLASHCARD_CREATED,
+      eventType: this.EventType.USER_FORM_SUBMISSION,
       properties: {
-        flashcardId: flashcardData._id,
-        listId: flashcardData.listId,
-        creationMethod: flashcardData.creationMethod || "manual"
+        userEmail: formData.email
       }
     });
   }
 
-  static async trackAiGeneration(
-    userId: string, 
-    topic: string, 
-    cardsGenerated: number, 
-    durationMs: number
-  ): Promise<string | null> {
+  static async trackUserLogin(userId: string, formData: any): Promise<string | null> {
     return this.trackEvent({
       userId,
-      eventType: this.EventType.AI_GENERATED,
+      eventType: this.EventType.USER_LOGIN,
       properties: {
-        topic,
-        cardsGenerated,
-        durationMs
+        userEmail: formData.email
       }
     });
   }
 
-  static async trackStudySession(
-    userId: string,
-    listId: string,
-    correctCount: number,
-    incorrectCount: number,
-    durationSeconds: number
-  ): Promise<string | null> {
+  static async trackUserSignUp(userId: string, formData: any): Promise<string | null> {
     return this.trackEvent({
       userId,
-      eventType: this.EventType.FLASHCARD_STUDIED,
+      eventType: this.EventType.USER_SIGNUP,
       properties: {
-        listId,
-        correctCount,
-        incorrectCount,
-        totalCards: correctCount + incorrectCount,
-        accuracyRate: correctCount / (correctCount + incorrectCount),
-        durationSeconds,
-        cardsPerMinute: (correctCount + incorrectCount) / (durationSeconds / 60)
+        userEmail: formData.email
       }
     });
   }
 
-  // New tracking method for prompts
-  static async trackPromptSubmission(
-    userId: string | undefined,
-    topic: string,
-    source: "web" | "mobile" | "api" = "web"
-  ): Promise<string | null> {
-    return this.trackEvent({
-      userId,
-      eventType: this.EventType.AI_PROMPT_SUBMITTED,
-      properties: {
-        topic,
-        topicNormalized: this.normalizeTopicForClustering(topic),
-        source,
-        timestamp: new Date()
-      }
-    });
-  }
-
-  // Helper to normalize topics for clustering similar requests
-  private static normalizeTopicForClustering(topic: string): string {
-    return topic
-      .toLowerCase()
-      .replace(/[^\w\s]/g, '') // Remove special chars
-      .replace(/\s+/g, ' ')    // Normalize whitespace
-      .trim();
-  }
 }
