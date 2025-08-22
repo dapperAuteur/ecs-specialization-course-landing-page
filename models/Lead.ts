@@ -4,14 +4,15 @@ import mongoose, { Schema, Document, models, Model } from 'mongoose';
 
 // Define the interface for the Lead document
 export interface ILead extends Document {
-  _id: mongoose.Schema.Types.ObjectId; // Explicitly define _id
+  _id: mongoose.Schema.Types.ObjectId;
   firstName: string;
   lastName: string;
   email: string;
   phone: string;
   interest?: string;
-  createdAt: string; // Add createdAt
-  updatedAt: string; // Add updatedAt
+  industryRoles?: string[];
+  createdAt: string;
+  updatedAt: string;
 }
 
 // Define the Mongoose schema for the Lead
@@ -43,11 +44,14 @@ const LeadSchema: Schema<ILead> = new Schema({
     type: String,
     trim: true,
   },
+  industryRoles: {
+    type: [String],
+    default: [],
+  },
 }, {
-  timestamps: true, // This automatically adds createdAt and updatedAt fields
+  timestamps: true,
 });
 
-// To prevent model recompilation errors in Next.js, check if the model already exists
 const Lead: Model<ILead> = models.Lead || mongoose.model<ILead>('Lead', LeadSchema);
 
 export default Lead;

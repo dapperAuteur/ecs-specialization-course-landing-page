@@ -10,6 +10,7 @@ interface RequestBody {
   email: string;
   phone: string;
   interest?: string;
+  industryRoles?: string[];
   token: string;
 }
 
@@ -21,7 +22,7 @@ export async function POST(request: NextRequest) {
   try {
     await dbConnect(); // Ensure database connection is established
 
-    const { firstName, lastName, email, phone, interest, token }: RequestBody = await request.json();
+    const { firstName, lastName, email, phone, interest, industryRoles, token }: RequestBody = await request.json();
     
     // 1. Validate form data
     if (!firstName || !lastName || !email || !phone || !token) {
@@ -63,6 +64,7 @@ export async function POST(request: NextRequest) {
       email,
       phone,
       interest,
+      industryRoles,
     });
 
     await newLead.save();
@@ -72,7 +74,7 @@ export async function POST(request: NextRequest) {
     
     await Logger.info(LogContext.USER, 'New lead successfully created', { 
         request, 
-        metadata: { leadId, email, interest } 
+        metadata: { leadId, email, interest, industryRoles } 
     });
 
     await AnalyticsLogger.trackEvent({
