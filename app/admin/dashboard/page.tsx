@@ -8,6 +8,7 @@ import LeadsTable from "@/components/admin/LeadsTable";
 import { ILead } from "@/models/Lead";
 import Link from "next/link";
 import clientPromise from "@/lib/db/mongodb";
+import { getAllLeads } from "@/lib/data/leads";
 
 async function getLeads(): Promise<ILead[]> {
   const baseUrl = process.env.NEXTAUTH_URL || "http://localhost:3000";
@@ -48,7 +49,7 @@ export default async function DashboardPage() {
 
   // Fetch both sets of data in parallel
   const [leads, logCount] = await Promise.all([
-    getLeads(),
+    getAllLeads(),
     getLogCount()
   ]);
 
