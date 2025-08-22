@@ -4,7 +4,7 @@ import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/lib/authOptions";
 import { redirect } from "next/navigation";
 import LogsTable from "@/components/admin/LogsTable";
-// import LogsTable from "../../components/admin/LogsTable"
+import { getAllLogs } from "@/lib/data/logs";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
@@ -31,7 +31,7 @@ export default async function LogsPage() {
     redirect("/admin/login");
   }
 
-  const logs = await getLogs();
+  const logs = await getAllLogs();
 
   return (
     <div className="space-y-6">
