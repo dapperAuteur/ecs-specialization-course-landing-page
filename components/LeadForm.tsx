@@ -2,12 +2,20 @@
 
 import React, { useState } from 'react';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
-import { CheckCircle, ArrowRight, AlertTriangle } from 'lucide-react';
+import { CheckCircle, ArrowRight, AlertTriangle, PlusCircle } from 'lucide-react';
 
 /**
  * The main form component, which includes reCAPTCHA logic.
  * This component must be a child of GoogleReCaptchaProvider.
  */
+const industryRolesOptions = [
+  "Budtender",
+  "Medical User",
+  "Recreational User",
+  "Industry Professional",
+  "Naturopathic Doctor",
+  "Medical Doctor",
+];
 const LeadForm = () => {
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [formData, setFormData] = useState({
@@ -18,6 +26,7 @@ const LeadForm = () => {
     interest: ''
   });
 
+  const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [submitMessage, setSubmitMessage] = useState<string | null>(null);
@@ -25,6 +34,27 @@ const LeadForm = () => {
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const handleRoleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { value, checked } = e.target;
+    setSelectedRoles(prev => 
+      checked ? [...prev, value] : prev.filter(role => role !== value)
+    );
+  };
+
+  const handleResetForm = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      phone: '',
+      interest: ''
+    });
+    setSelectedRoles([]);
+    setIsSubmitted(false);
+    setSubmitMessage(null);
+    setIsError(false);
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -57,7 +87,7 @@ const LeadForm = () => {
       const response = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ ...formData, token }),
+        body: JSON.stringify({ ...formData, industryRoles: selectedRoles, token }),
       });
 
       const result = await response.json();
@@ -93,6 +123,15 @@ const LeadForm = () => {
           <p className="text-blue-800 font-semibold">
             Next steps: Check your email for your personalized learning pathway and science-based resources.
           </p>
+        </div>
+        <div className="mt-8">
+            <button
+                onClick={handleResetForm}
+                className="w-full bg-gradient-to-r from-gray-500 to-gray-600 text-white font-bold py-3 px-6 rounded-lg hover:from-gray-600 hover:to-gray-700 transition-all duration-300 flex items-center justify-center space-x-2 text-base"
+            >
+                <PlusCircle className="w-5 h-5" />
+                <span>Submit Another Response</span>
+            </button>
         </div>
       </div>
     );
@@ -162,6 +201,24 @@ const LeadForm = () => {
             placeholder="(555) 123-4567"
             required
           />
+        </div>
+        <div>
+          <label className="block text-sm font-semibold text-gray-700 mb-4">
+            Which of the following best describe you? (Select all that apply)
+          </label>
+          <div className="grid grid-cols-2 gap-4">
+            {industryRolesOptions.map((role) => (
+              <label key={role} className="flex items-center space-x-3 p-3 border border-gray-200 rounded-lg hover:bg-gray-50 cursor-pointer">
+                <input
+                  type="checkbox"
+                  value={role}
+                  onChange={handleRoleChange}
+                  className="h-5 w-5 rounded border-gray-300 text-blue-600 focus:ring-blue-500"
+                />
+                <span className="text-sm text-gray-800">{role}</span>
+              </label>
+            ))}
+          </div>
         </div>
         
         <div>

@@ -1,7 +1,6 @@
-// components/admin/LeadsTable.tsx
 "use client";
 
-import { ILead } from "@/models/Lead"; // Assuming ILead is exported from your Lead model
+import { ILead } from "@/models/Lead";
 
 interface LeadsTableProps {
   leads: ILead[];
@@ -29,19 +28,34 @@ export default function LeadsTable({ leads }: LeadsTableProps) {
         <thead className="bg-gray-50">
           <tr>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Name</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Email</th>
-            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Phone</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Contact</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Interest</th>
+            <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase">Industry Roles</th>
             <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Submitted At</th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {leads.map((lead) => (
+          {leads.map((lead: ILead) => (
             <tr key={lead._id.toString()}>
               <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">{`${lead.firstName} ${lead.lastName}`}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{lead.email}</td>
-              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{lead.phone}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <div>{lead.email}</div>
+                <div>{lead.phone}</div>
+              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{lead.interest || 'N/A'}</td>
+              <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">
+                <div className="flex flex-wrap gap-2">
+                  {lead.industryRoles && lead.industryRoles.length > 0 ? (
+                    lead.industryRoles.map(role => (
+                      <span key={role} className="px-2 py-1 text-xs font-semibold text-blue-800 bg-blue-100 rounded-full">
+                        {role}
+                      </span>
+                    ))
+                  ) : (
+                    <span className="text-gray-400">N/A</span>
+                  )}
+                </div>
+              </td>
               <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-600">{formatDate(lead.createdAt)}</td>
             </tr>
           ))}
