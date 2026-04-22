@@ -1,36 +1,79 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ECS Specialization
 
-## Getting Started
+Endocannabinoid System specialization course lead capture.
 
-First, run the development server:
+## About
+
+Deployed at [ecs-specialization.betterbud.club](https://ecs-specialization.betterbud.club). This site's one job is lead capture for a class about the **endogenous** cannabinoid system — the mammalian signaling network of receptors, ligands, and enzymes that regulates homeostasis. The curriculum is human-biology science education. It is **not** about the cannabis plant and it is not a drug-use course.
+
+Operated by B4C LLC / AwesomeWebStore.com. Built by [Brand Anthony McDonald](https://brandanthonymcdonald.com).
+
+## Ecosystem Positioning
+
+Sits alongside [CentenarianOS](https://centenarianos.com) (the longevity OS that will eventually host the enrolled course) and [brandanthonymcdonald.com](https://brandanthonymcdonald.com) (BAM's practitioner-scholar portfolio). Because the class touches a regulated adult-education topic, **every lead form on this site is behind a 21+ age-verification gate** — see [plans/user-tasks/15](plans/user-tasks/) once the ecosystem guardrails are adopted here.
+
+## Tech Stack
+
+| Layer | Technology |
+|---|---|
+| Framework | Next.js 15 (App Router) |
+| Language | TypeScript |
+| Styling | Tailwind CSS v4 |
+| Database | MongoDB (Mongoose) |
+| Auth | NextAuth v4 (credentials, admin only) |
+| Bot check | Google reCAPTCHA v3 |
+| Logging | pino |
+| Analytics | Vercel Analytics |
+| Hosting | Vercel |
+
+## Quick Start
 
 ```bash
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000). Copy `.env.example` to `.env.local` and fill in every variable listed there before the first run.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Project Structure
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+```
+ecs-specialization-course-landing-page/
+├── app/
+│   ├── layout.tsx              # Root layout + fonts + Vercel Analytics
+│   ├── page.tsx                # Public landing page (Hero → LeadForm)
+│   ├── providers.tsx           # NextAuth SessionProvider
+│   ├── globals.css
+│   ├── admin/{login,dashboard,logs}/page.tsx  # Admin surface
+│   ├── api/
+│   │   ├── leads/route.ts      # Public POST — creates Lead after reCAPTCHA
+│   │   ├── auth/[...nextauth]/ # NextAuth handler
+│   │   └── admin/{leads,logs}/ # Admin-only read endpoints
+│   └── ebook/                  # Static ebook preview asset
+├── components/
+│   ├── Hero, Stats, ProblemStatement, CourseFeatures,
+│   ├── CourseCurriculum, SpecializationTracks,
+│   ├── ScientificEvidence, LeadForm, Footer
+│   └── admin/{LeadsTable,LogsTable}
+├── lib/
+│   ├── authOptions.ts          # NextAuth config
+│   ├── db/{dbConnect,mongodb}.ts
+│   ├── data/{leads,logs}.ts    # Admin-surface queries
+│   └── utils/utils.ts
+├── models/{Lead,User,AuthLog}.ts
+├── logging/                    # pino loggers (client/edge/admin/auth)
+└── scripts/create-admin.js     # Seeds an admin User (gitignored)
+```
 
-## Learn More
+## Deployment
 
-To learn more about Next.js, take a look at the following resources:
+Deployed on Vercel. Pushes to `main` trigger automatic production deploys.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+# Manual deploy
+npx vercel --prod
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## License
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Proprietary B4C LLC / AwesomeWebStore.com
