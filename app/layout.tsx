@@ -13,14 +13,32 @@ const geistMono = Geist_Mono({
   subsets: ['latin'],
 });
 
+const SITE_URL = 'https://ecs-specialization.betterbud.club';
+const SITE_DESCRIPTION =
+  'Master the science of the mammalian endocannabinoid system. Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of research.';
+
 export const metadata: Metadata = {
-  metadataBase: new URL('https://ecs-specialization.betterbud.club'),
+  metadataBase: new URL(SITE_URL),
   title: {
     default: 'ECS Specialization — Endocannabinoid System Training',
     template: '%s | ECS Specialization',
   },
-  description:
-    "Master the science of the mammalian endocannabinoid system. Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of research.",
+  description: SITE_DESCRIPTION,
+  alternates: { canonical: '/' },
+  // OG image generated dynamically at build by app/opengraph-image.tsx;
+  // Next 16 picks it up automatically and includes it in metadata.
+  openGraph: {
+    type: 'website',
+    siteName: 'ECS Specialization',
+    title: 'ECS Specialization — Endocannabinoid System Training',
+    description: SITE_DESCRIPTION,
+    url: SITE_URL,
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'ECS Specialization — Endocannabinoid System Training',
+    description: SITE_DESCRIPTION,
+  },
 };
 
 export default function RootLayout({

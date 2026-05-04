@@ -9,9 +9,37 @@ import LeadForm from '@/components/LeadForm';
 import RecaptchaProvider from '@/components/RecaptchaProvider';
 import Footer from '@/components/Footer';
 
+const courseJsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'Course',
+  name: 'ECS Specialization',
+  description:
+    'A receptor-biology-focused specialization on the mammalian endocannabinoid system. Receptors (CB1, CB2), endogenous ligands (anandamide, 2-AG), degradation enzymes (FAAH, MAGL), and retrograde signaling.',
+  educationalLevel: 'adult',
+  inLanguage: 'en',
+  audience: {
+    '@type': 'Audience',
+    audienceType: 'Adults 21+',
+  },
+  provider: {
+    '@type': 'Organization',
+    name: 'B4C LLC',
+    url: 'https://ecs-specialization.betterbud.club',
+  },
+  hasCourseInstance: {
+    '@type': 'CourseInstance',
+    courseMode: 'online',
+    startDate: '2026-05-11',
+  },
+};
+
 export default function HomePage() {
   return (
     <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(courseJsonLd) }}
+      />
       <main id="main" className="flex-1">
         <Hero />
         <Stats />
