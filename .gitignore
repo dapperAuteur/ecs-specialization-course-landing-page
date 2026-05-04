@@ -50,3 +50,6 @@ next-env.d.ts
 prompt.md
 
 scripts/create-admin.js
+
+# Claude Code editor settings — local-only
+.claude/
