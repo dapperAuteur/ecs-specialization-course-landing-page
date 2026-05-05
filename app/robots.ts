@@ -17,7 +17,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: [
       {
         userAgent: '*',
-        allow: ['/', '/age-gate'],
+        allow: ['/', '/safety', '/age-gate'],
         disallow: ['/ebook/', '/age-gate/under-21', '/thanks', '/api/'],
       },
     ],

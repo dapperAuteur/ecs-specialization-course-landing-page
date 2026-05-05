@@ -5,9 +5,11 @@ import { COOKIE_NAME, verifyCookieValue } from '@/lib/age-gate';
  * Next 16 proxy. Enforces the 21+ age-gate at the edge.
  *
  * Bypassed paths (so the gate doesn't loop on itself or break delivery):
- *   /age-gate*  : the attestation page itself
- *   /api/*      : server endpoints (server-side verifies its own way)
- *   /thanks     : post-submit confirmation (user already attested before submitting)
+ *   /age-gate*       : the attestation page itself
+ *   /safety*         : mental-health resources, must be reachable for anyone
+ *                      in crisis regardless of age attestation
+ *   /api/*           : server endpoints (server-side verifies its own way)
+ *   /thanks          : post-submit confirmation (already attested)
  *   /_next/*, static : assets
  *
  * Everything else, including /ebook/*, runs through the gate. The ebook is
@@ -20,6 +22,7 @@ export function proxy(req: NextRequest) {
 
   if (
     pathname.startsWith('/age-gate') ||
+    pathname.startsWith('/safety') ||
     pathname.startsWith('/api') ||
     pathname === '/thanks' ||
     pathname.startsWith('/_next')

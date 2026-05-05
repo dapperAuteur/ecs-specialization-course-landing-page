@@ -12,6 +12,18 @@ export default function Footer() {
 
         <nav aria-label="Ecosystem links" className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 text-sm text-slate-300">
           <a
+            href="/safety#rise-wellness"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Rise Wellness
+          </a>
+          <a
+            href="/safety"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Safety &amp; Resources
+          </a>
+          <a
             href="https://centenarianos.com"
             className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
             target="_blank"
