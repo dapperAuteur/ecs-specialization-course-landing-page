@@ -1,6 +1,12 @@
 import { type NextRequest } from 'next/server';
+import { after } from 'next/server';
+import { cookies, headers } from 'next/headers';
 import { readFile, stat } from 'node:fs/promises';
 import { resolve } from 'node:path';
+import { COOKIE_NAME, verifyCookieValue } from '@/lib/age-gate';
+import { safeWrite } from '@/lib/db-safe';
+import { getDb } from '@/lib/db';
+import { downloadLog } from '@/db/schema';
 
 /**
  * Public ebook download. Reads PDF from app/ebooks/<slug>.pdf and streams
@@ -15,6 +21,11 @@ import { resolve } from 'node:path';
  * Headers:
  *   Cache-Control: public, max-age=3600 (the ebook isn't sensitive)
  *   Content-Disposition: attachment so browsers download instead of inline
+ *
+ * Tracking: every successful download is logged to download_log via after()
+ * so the PDF response goes back without waiting on the DB write. session_id
+ * comes from the age-gate cookie and correlates with lead.consent_log.session_id
+ * for funnel queries.
  */
 
 interface RouteContext {
@@ -57,6 +68,34 @@ export async function GET(_req: NextRequest, ctx: RouteContext) {
       headers: { 'Content-Type': 'text/plain' },
     });
   }
+
+  // Capture context for the log row before the response goes back.
+  const cookieStore = await cookies();
+  const headerStore = await headers();
+  const cookieResult = verifyCookieValue(cookieStore.get(COOKIE_NAME)?.value);
+  const sessionId = cookieResult.ok ? cookieResult.sessionId ?? null : null;
+  const ip =
+    headerStore.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+    headerStore.get('x-real-ip') ??
+    null;
+  const userAgent = headerStore.get('user-agent') ?? null;
+
+  // Log the download in the background so the PDF streams without waiting
+  // on the DB. Failures are logged but never surfaced to the user.
+  after(async () => {
+    const db = getDb();
+    const result = await safeWrite('download_log.insert', () =>
+      db.insert(downloadLog).values({
+        slug,
+        sessionId,
+        ip,
+        userAgent,
+      }),
+    );
+    if (!result.ok) {
+      console.error(`[ebook] download_log insert failed (${result.code})`);
+    }
+  });
 
   return new Response(new Uint8Array(pdf), {
     status: 200,
