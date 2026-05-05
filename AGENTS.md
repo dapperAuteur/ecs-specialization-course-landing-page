@@ -28,6 +28,7 @@ This version (Next 16) has breaking changes — APIs, conventions, and file stru
 - HMAC-signed outbound webhook to `inbox.witus.online/api/ingest` (5-min skew, constant-time compare)
 - Next 16 → use `proxy.ts`, not `middleware.ts`
 - `plans/` is gitignored; `_archive/` is gitignored. **Never push to `main`** — user reviews + pushes
+- **Branches stay small.** One focused change per branch. Split UI from backend, refactor from new feature, page A from page B. When in doubt, queue multiple branches. Multi-feature branches make review heavy and rollback expensive.
 - **Cross-repo edits:** branch in the sibling, user-task in origin queue (witus `plans/user-tasks/`) for merge/push
 
 **Stack reality (post-`feat/01-rebuild`):**
