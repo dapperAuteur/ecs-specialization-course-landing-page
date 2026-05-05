@@ -6,6 +6,8 @@ import { COOKIE_NAME, verifyCookieValue } from '@/lib/age-gate';
  *
  * Bypassed paths (so the gate doesn't loop on itself or break delivery):
  *   /age-gate*           — the attestation page itself
+ *   /safety*             — mental-health resources, must be reachable for
+ *                          anyone in crisis regardless of age attestation
  *   /api/*               — server endpoints (server-side verifies its own way)
  *   /ebook/*             — JWT-authenticated downloads (post-attestation)
  *   /thanks              — post-submit confirmation (already attested)
@@ -19,6 +21,7 @@ export function proxy(req: NextRequest) {
 
   if (
     pathname.startsWith('/age-gate') ||
+    pathname.startsWith('/safety') ||
     pathname.startsWith('/api') ||
     pathname.startsWith('/ebook') ||
     pathname === '/thanks' ||
