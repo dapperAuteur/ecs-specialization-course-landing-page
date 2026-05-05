@@ -13,7 +13,7 @@ export default function RecaptchaProvider({ children }: { children: ReactNode })
 
   if (!siteKey) {
     if (process.env.NODE_ENV === 'development') {
-      console.warn('[recaptcha] NEXT_PUBLIC_RECAPTCHA_SITE_KEY missing — rendering form without provider');
+      console.warn('[recaptcha] NEXT_PUBLIC_RECAPTCHA_SITE_KEY missing; rendering form without provider');
     }
     return <>{children}</>;
   }

@@ -30,6 +30,7 @@ const ROLE_OPTIONS = [
   'Industry Professional',
   'Naturopathic Doctor',
   'Medical Doctor',
+  'Personal wellness / self-study',
 ] as const;
 
 export default function LeadForm() {
@@ -70,7 +71,7 @@ export default function LeadForm() {
           name: values.name,
           phone: values.phone || undefined,
           interest: values.interest && values.interest.length > 0 ? values.interest : undefined,
-          industryRoles: (values.industryRoles ?? []) as ('Industry Professional' | 'Naturopathic Doctor' | 'Medical Doctor')[],
+          industryRoles: (values.industryRoles ?? []) as ('Industry Professional' | 'Naturopathic Doctor' | 'Medical Doctor' | 'Personal wellness / self-study')[],
           recaptchaToken: token,
         });
 
@@ -209,7 +210,7 @@ export default function LeadForm() {
           </>
         ) : (
           <>
-            <span>Get the free preview ebook</span>
+            <span>Tell me when enrollment opens</span>
             <ArrowRight className="w-5 h-5" aria-hidden="true" />
           </>
         )}

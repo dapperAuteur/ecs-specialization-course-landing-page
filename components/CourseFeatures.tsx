@@ -5,7 +5,7 @@ const features = [
     Icon: Brain,
     title: 'A signaling system in every mammal',
     description:
-      'The endocannabinoid system is present in every human body — and missing from most medical curricula.',
+      'The endocannabinoid system is present in every human body. It is missing from most medical curricula.',
   },
   {
     Icon: Dna,
@@ -17,13 +17,13 @@ const features = [
     Icon: Network,
     title: 'Retrograde signaling',
     description:
-      'The only signaling pathway in the brain that runs post-synapse to pre-synapse — central to learning and plasticity.',
+      'The only signaling pathway in the brain that runs post-synapse to pre-synapse, central to learning and plasticity.',
   },
   {
     Icon: Activity,
     title: 'Lifestyle activation',
     description:
-      'Fitness, nutrition, and mindfulness protocols measurably influence ECS tone — no exogenous compounds required.',
+      'Fitness, nutrition, and mindfulness protocols measurably influence ECS tone. No exogenous compounds required.',
   },
 ];
 
@@ -36,7 +36,7 @@ export default function CourseFeatures() {
             What you&apos;ll master
           </h2>
           <p className="text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto">
-            40+ years of receptor biology, distilled into a working clinician&apos;s framework.
+            40+ years of receptor biology in a clinician-ready framework.
           </p>
         </div>
 

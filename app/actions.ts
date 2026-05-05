@@ -25,8 +25,8 @@ const submissionSchema = z.object({
     .optional()
     .transform((v) => v ?? undefined),
   industryRoles: z
-    .array(z.enum(['Industry Professional', 'Naturopathic Doctor', 'Medical Doctor']))
-    .max(3)
+    .array(z.enum(['Industry Professional', 'Naturopathic Doctor', 'Medical Doctor', 'Personal wellness / self-study']))
+    .max(4)
     .default([]),
   recaptchaToken: z.string().min(1),
 });
@@ -103,7 +103,7 @@ export async function submitLead(input: SubmissionInput): Promise<SubmissionResu
   if (!inserted.ok) {
     const message =
       inserted.code === 'duplicate'
-        ? "This email is already on the list — we'll be in touch."
+        ? "This email is already on the list. We'll be in touch."
         : 'Something went wrong on our end. Please try again in a minute.';
     return { ok: false, code: inserted.code === 'duplicate' ? 'duplicate' : 'server-error', message };
   }

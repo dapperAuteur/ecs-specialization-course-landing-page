@@ -6,8 +6,8 @@ export default function Footer() {
           ECS Specialization
         </h2>
         <p className="text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto text-sm sm:text-base">
-          Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of ECS
-          research into a working specialization.
+          The science of the endocannabinoid system. Receptor biology, endogenous ligands, and
+          signaling, taught as a specialization.
         </p>
 
         <nav aria-label="Ecosystem links" className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 text-sm text-slate-300">
