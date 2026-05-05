@@ -32,6 +32,13 @@ yarn-error.log*
 
 # env files (can opt-in for committing if needed)
 .env*
+!.env.example
+
+# planning docs — never shipped in a commit
+plans/
+
+# rebuild rollback safety — pre-rebuild snapshot
+_archive/
 
 # vercel
 .vercel
@@ -43,3 +50,6 @@ next-env.d.ts
 prompt.md
 
 scripts/create-admin.js
+
+# Claude Code editor settings — local-only
+.claude/

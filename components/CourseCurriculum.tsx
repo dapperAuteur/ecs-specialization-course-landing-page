@@ -1,70 +1,82 @@
-import React from 'react'
+const lectures = [
+  {
+    number: '01',
+    title: 'Discovery + receptor biology',
+    description:
+      'How the ECS was identified in the 1990s, why mammals have CB1 and CB2 receptors, and how they distribute across the nervous and immune systems.',
+    duration: '18 min',
+  },
+  {
+    number: '02',
+    title: 'CB1 and CB2 in detail',
+    description:
+      'Where each receptor is expressed, the downstream pathways they modulate, and why this maps to memory, appetite, pain, and inflammation.',
+    duration: '20 min',
+  },
+  {
+    number: '03',
+    title: 'Endogenous ligands',
+    description:
+      "Anandamide and 2-AG — the body's on-demand modulators. Synthesis, release, receptor binding, and physiological effects.",
+    duration: '22 min',
+  },
+  {
+    number: '04',
+    title: 'Degradation enzymes',
+    description:
+      'FAAH and MAGL — how they tune signal duration, and why their genetic variants change individual ECS tone.',
+    duration: '21 min',
+  },
+  {
+    number: '05',
+    title: 'Retrograde signaling',
+    description:
+      'The post-to-pre-synaptic communication pattern that distinguishes the ECS from every other neurotransmitter system.',
+    duration: '23 min',
+  },
+];
 
-function CourseCurriculum() {
-
-  const lectures = [
-    {
-      number: "01",
-      title: "The Cannabis Mystery",
-      description: "Why humans have cannabis receptors and the 1990s discovery that changed medicine",
-      duration: "18 min"
-    },
-    {
-      number: "02", 
-      title: "Your Body's Hidden Network",
-      description: "Where CB1 and CB2 receptors live and why cannabis affects memory, appetite, and pain",
-      duration: "20 min"
-    },
-    {
-      number: "03",
-      title: "Nature's Messengers", 
-      description: "Anandamide and 2-AG - your body's natural cannabis chemicals made on-demand",
-      duration: "22 min"
-    },
-    {
-      number: "04",
-      title: "The Cleanup Crew",
-      description: "FAAH and MAGL enzymes that control how long your natural cannabis signals last",
-      duration: "21 min"
-    },
-    {
-      number: "05",
-      title: "The Communication System",
-      description: "Retrograde signaling - the revolutionary backward brain communication discovery",
-      duration: "23 min"
-    }
-  ];
+export default function CourseCurriculum() {
   return (
-    <div className="py-20 bg-gray-50">
-          <div className="container mx-auto px-6">
-            <div className="text-center mb-16">
-              <h2 className="text-4xl font-bold text-gray-900 mb-4">Complete Curriculum</h2>
-              <p className="text-xl text-gray-600">5 comprehensive lectures building your ECS expertise</p>
-            </div>
-            
-            <div className="max-w-4xl mx-auto">
-              {lectures.map((lecture, index) => (
-                <div key={index} className="bg-white rounded-xl shadow-lg p-6 mb-6 hover:shadow-xl transition-shadow">
-                  <div className="flex items-center justify-between">
-                    <div className="flex items-center space-x-6">
-                      <div className="bg-blue-600 text-white rounded-full w-12 h-12 flex items-center justify-center font-bold">
-                        {lecture.number}
-                      </div>
-                      <div>
-                        <h3 className="text-xl font-semibold text-gray-900 mb-2">{lecture.title}</h3>
-                        <p className="text-gray-600">{lecture.description}</p>
-                      </div>
-                    </div>
-                    <div className="text-blue-600 font-semibold bg-blue-50 px-3 py-1 rounded-lg">
-                      {lecture.duration}
-                    </div>
-                  </div>
-                </div>
-              ))}
-            </div>
-          </div>
+    <section aria-labelledby="curriculum-heading" className="py-16 sm:py-20 bg-slate-50">
+      <div className="container mx-auto px-6">
+        <div className="text-center mb-10 sm:mb-16">
+          <h2 id="curriculum-heading" className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
+            Complete curriculum
+          </h2>
+          <p className="text-lg sm:text-xl text-slate-600">5 lectures building your ECS expertise</p>
         </div>
-  )
-}
 
-export default CourseCurriculum
+        <ol className="max-w-4xl mx-auto space-y-4 sm:space-y-6 list-none">
+          {lectures.map((l) => (
+            <li
+              key={l.number}
+              className="bg-white rounded-xl shadow-lg p-5 sm:p-6 hover:shadow-xl transition-shadow"
+            >
+              <div className="flex items-start sm:items-center gap-4 sm:gap-6">
+                <div
+                  className="bg-emerald-600 text-white rounded-full w-11 h-11 sm:w-12 sm:h-12 flex items-center justify-center font-bold flex-shrink-0"
+                  aria-hidden="true"
+                >
+                  {l.number}
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="flex flex-wrap items-baseline gap-2 sm:gap-3 mb-1 sm:mb-2">
+                    <h3 className="text-lg sm:text-xl font-semibold text-slate-900">
+                      <span className="sr-only">Lecture {l.number}: </span>
+                      {l.title}
+                    </h3>
+                    <span className="text-emerald-700 text-xs sm:text-sm font-semibold bg-emerald-50 px-2 py-1 rounded">
+                      {l.duration}
+                    </span>
+                  </div>
+                  <p className="text-slate-600 text-sm sm:text-base">{l.description}</p>
+                </div>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </div>
+    </section>
+  );
+}

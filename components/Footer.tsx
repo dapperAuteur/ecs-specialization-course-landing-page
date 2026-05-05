@@ -1,24 +1,43 @@
-import React from 'react'
-
-function Footer() {
+export default function Footer() {
   return (
-    <div className="py-12 bg-gray-900 text-white">
-          <div className="container mx-auto px-6 text-center">
-            <h3 className="text-2xl font-bold mb-4">Master Your Body's Hidden System</h3>
-            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
-              40+ years of research, cutting-edge science, and practical applications 
-              for optimizing your endocannabinoid system naturally.
-            </p>
-            <div className="flex justify-center space-x-8 text-sm text-gray-400">
-              <span>Science-Based Education</span>
-              <span>•</span>
-              <span>Evidence-Backed Methods</span>
-              <span>•</span>
-              <span>Professional Certification</span>
-            </div>
-          </div>
-        </div>
-  )
-}
+    <footer className="py-10 sm:py-12 bg-slate-900 text-white">
+      <div className="container mx-auto px-6 text-center">
+        <h2 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4">
+          ECS Specialization
+        </h2>
+        <p className="text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto text-sm sm:text-base">
+          Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of ECS
+          research into a working specialization.
+        </p>
 
-export default Footer
+        <nav aria-label="Ecosystem links" className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 text-sm text-slate-300">
+          <a
+            href="https://centenarianos.com"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            CentenarianOS
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+          <a
+            href="https://brandanthonymcdonald.com"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Instructor portfolio
+            <span className="sr-only"> (opens in a new tab)</span>
+          </a>
+        </nav>
+
+        <p className="text-xs sm:text-sm text-amber-300 max-w-2xl mx-auto mb-3 sm:mb-4">
+          Educational content. 21+. Not medical advice.
+        </p>
+        <p className="text-xs text-slate-500">
+          © {new Date().getFullYear()} B4C LLC / AwesomeWebStore.com. All rights reserved.
+        </p>
+      </div>
+    </footer>
+  );
+}
