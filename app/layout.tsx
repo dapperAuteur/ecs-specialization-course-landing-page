@@ -15,12 +15,13 @@ const geistMono = Geist_Mono({
 
 const SITE_URL = 'https://ecs-specialization.betterbud.club';
 const SITE_DESCRIPTION =
-  'Master the science of the mammalian endocannabinoid system. Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of research.';
+  'The science of the mammalian endocannabinoid system. Receptor biology, endogenous ligands, and signaling, taught as a specialization.';
+const SITE_TITLE = 'ECS Specialization: Endocannabinoid System Training';
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: 'ECS Specialization — Endocannabinoid System Training',
+    default: SITE_TITLE,
     template: '%s | ECS Specialization',
   },
   description: SITE_DESCRIPTION,
@@ -30,13 +31,13 @@ export const metadata: Metadata = {
   openGraph: {
     type: 'website',
     siteName: 'ECS Specialization',
-    title: 'ECS Specialization — Endocannabinoid System Training',
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
     url: SITE_URL,
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'ECS Specialization — Endocannabinoid System Training',
+    title: SITE_TITLE,
     description: SITE_DESCRIPTION,
   },
 };

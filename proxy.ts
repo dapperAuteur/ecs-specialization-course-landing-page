@@ -5,22 +5,28 @@ import { COOKIE_NAME, verifyCookieValue } from '@/lib/age-gate';
  * Next 16 proxy. Enforces the 21+ age-gate at the edge.
  *
  * Bypassed paths (so the gate doesn't loop on itself or break delivery):
- *   /age-gate*           — the attestation page itself
- *   /api/*               — server endpoints (server-side verifies its own way)
- *   /ebook/*             — JWT-authenticated downloads (post-attestation)
- *   /thanks              — post-submit confirmation (already attested)
- *   /_next/*, static     — assets
+ *   /age-gate*       : the attestation page itself
+ *   /safety*         : mental-health resources, must be reachable for anyone
+ *                      in crisis regardless of age attestation
+ *   /terms, /privacy : legal pages must be readable before attesting
+ *   /api/*           : server endpoints (server-side verifies its own way)
+ *   /thanks          : post-submit confirmation (already attested)
+ *   /_next/*, static : assets
  *
- * Everything else: read the ecs_age_attested cookie. If missing or
- * invalid, redirect to /age-gate with ?next=<original-path>.
+ * Everything else, including /ebook/*, runs through the gate. The ebook is
+ * publicly downloadable but ONLY for 21+-attested visitors; no token, no
+ * form submission, no email. Compliance lives in the cookie check, not in
+ * a per-user URL.
  */
 export function proxy(req: NextRequest) {
   const { pathname, search } = req.nextUrl;
 
   if (
     pathname.startsWith('/age-gate') ||
+    pathname.startsWith('/safety') ||
+    pathname === '/terms' ||
+    pathname === '/privacy' ||
     pathname.startsWith('/api') ||
-    pathname.startsWith('/ebook') ||
     pathname === '/thanks' ||
     pathname.startsWith('/_next')
   ) {

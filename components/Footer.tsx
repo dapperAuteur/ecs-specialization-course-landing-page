@@ -6,11 +6,35 @@ export default function Footer() {
           ECS Specialization
         </h2>
         <p className="text-slate-300 mb-4 sm:mb-6 max-w-2xl mx-auto text-sm sm:text-base">
-          Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of ECS
-          research into a working specialization.
+          The science of the endocannabinoid system. Receptor biology, endogenous ligands, and
+          signaling, taught as a specialization.
         </p>
 
-        <nav aria-label="Ecosystem links" className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 text-sm text-slate-300">
+        <nav aria-label="Footer links" className="flex flex-wrap justify-center gap-4 sm:gap-6 mb-6 text-sm text-slate-300">
+          <a
+            href="/terms"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Terms of Use
+          </a>
+          <a
+            href="/privacy"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Privacy Policy
+          </a>
+          <a
+            href="/safety#rise-wellness"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Rise Wellness
+          </a>
+          <a
+            href="/safety"
+            className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
+          >
+            Safety &amp; Resources
+          </a>
           <a
             href="https://centenarianos.com"
             className="hover:text-emerald-300 underline-offset-4 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-400 rounded"
@@ -31,8 +55,11 @@ export default function Footer() {
           </a>
         </nav>
 
-        <p className="text-xs sm:text-sm text-amber-300 max-w-2xl mx-auto mb-3 sm:mb-4">
+        <p className="text-xs sm:text-sm text-amber-300 max-w-2xl mx-auto mb-2">
           Educational content. 21+. Not medical advice.
+        </p>
+        <p className="text-xs text-slate-400 max-w-2xl mx-auto mb-3 sm:mb-4">
+          No refunds on the course.
         </p>
         <p className="text-xs text-slate-500">
           © {new Date().getFullYear()} B4C LLC / AwesomeWebStore.com. All rights reserved.

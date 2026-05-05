@@ -4,7 +4,7 @@ export const runtime = 'nodejs';
 export const size = { width: 1200, height: 630 };
 export const contentType = 'image/png';
 
-export const alt = 'ECS Specialization — endocannabinoid system science education';
+export const alt = 'ECS Specialization: endocannabinoid system science education';
 
 /**
  * Placeholder OG image. Programmatically rendered text on emerald gradient.
@@ -58,7 +58,7 @@ export default function OpengraphImage() {
             lineHeight: 1.3,
           }}
         >
-          Receptor biology, endogenous ligands, and signaling — distilled from 40+ years of research.
+          Receptor biology, endogenous ligands, and signaling. 40+ years of research, taught as a specialization.
         </div>
         <div
           style={{

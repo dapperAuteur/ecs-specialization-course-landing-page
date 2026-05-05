@@ -5,7 +5,6 @@ import { headers } from 'next/headers';
 import { z } from 'zod';
 import { verifyRecaptcha } from '@/lib/recaptcha';
 import { verifyAgeGate } from '@/lib/age-gate';
-import { mintDownloadUrl } from '@/lib/ebook';
 import { postToInbox } from '@/lib/inbox';
 import { safeWrite } from '@/lib/db-safe';
 import { getDb } from '@/lib/db';
@@ -25,8 +24,8 @@ const submissionSchema = z.object({
     .optional()
     .transform((v) => v ?? undefined),
   industryRoles: z
-    .array(z.enum(['Industry Professional', 'Naturopathic Doctor', 'Medical Doctor']))
-    .max(3)
+    .array(z.enum(['Industry Professional', 'Naturopathic Doctor', 'Medical Doctor', 'Personal wellness / self-study']))
+    .max(4)
     .default([]),
   recaptchaToken: z.string().min(1),
 });
@@ -103,17 +102,17 @@ export async function submitLead(input: SubmissionInput): Promise<SubmissionResu
   if (!inserted.ok) {
     const message =
       inserted.code === 'duplicate'
-        ? "This email is already on the list — we'll be in touch."
+        ? "This email is already on the list. We'll be in touch."
         : 'Something went wrong on our end. Please try again in a minute.';
     return { ok: false, code: inserted.code === 'duplicate' ? 'duplicate' : 'server-error', message };
   }
 
   const leadId = inserted.data[0]!.id;
+  // leadId reserved for future per-lead correlation; ebook download is now
+  // public-and-decoupled (no per-lead URL minted).
+  void leadId;
 
-  // 6. Mint ebook URL (Phase 8 stub for now)
-  const minted = mintDownloadUrl({ slug: 'ecs-specialization', leadId });
-
-  // 7. Fire inbox webhook in the background (Phase 6 stub for now)
+  // 6. Fire inbox webhook in the background
   after(async () => {
     const result = await postToInbox({
       form_type: 'specialization-lead',
@@ -133,7 +132,8 @@ export async function submitLead(input: SubmissionInput): Promise<SubmissionResu
     }
   });
 
-  // 8. Redirect target carries the email (for /thanks UX) + the download URL
-  const redirectTo = `/thanks?email=${encodeURIComponent(data.email)}&download=${encodeURIComponent(minted.url)}`;
+  // 7. Redirect target carries just the email for /thanks UX. Ebook download
+  // is decoupled from the form (lives at /ebook/<slug>, public + age-gated).
+  const redirectTo = `/thanks?email=${encodeURIComponent(data.email)}`;
   return { ok: true, redirectTo };
 }

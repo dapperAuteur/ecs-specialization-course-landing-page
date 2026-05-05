@@ -19,8 +19,8 @@ export default function Hero() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
-            The mammalian regulatory network behind mood, sleep, appetite, immunity, and learning —
-            and the receptor biology most healthcare curricula skip.
+            The signaling system that regulates mood, sleep, appetite, immunity, and learning. Most
+            healthcare curricula don&apos;t teach it.
           </p>
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8">
             <span className="bg-white/15 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-2 sm:py-3 text-emerald-200 font-semibold text-sm sm:text-base">
@@ -33,12 +33,20 @@ export default function Hero() {
               Specialization Program
             </span>
           </div>
-          <a
-            href="#lead-form"
-            className="inline-block min-h-11 px-8 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
-            Get the free preview ebook
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <a
+              href="/ebook/ecs-specialization"
+              className="inline-block min-h-11 px-8 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Download the free ebook
+            </a>
+            <a
+              href="#lead-form"
+              className="inline-block min-h-11 px-8 py-3 rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Notify me when enrollment opens
+            </a>
+          </div>
         </div>
       </div>
     </section>
