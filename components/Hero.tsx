@@ -19,8 +19,8 @@ export default function Hero() {
             </span>
           </h1>
           <p className="text-lg sm:text-xl md:text-2xl mb-8 max-w-4xl mx-auto opacity-90">
-            The mammalian regulatory network behind mood, sleep, appetite, immunity, and learning —
-            and the receptor biology most healthcare curricula skip.
+            The signaling system that regulates mood, sleep, appetite, immunity, and learning. Most
+            healthcare curricula don&apos;t teach it.
           </p>
           <div className="flex flex-wrap justify-center gap-3 sm:gap-4 mb-8">
             <span className="bg-white/15 backdrop-blur-sm rounded-lg px-4 sm:px-6 py-2 sm:py-3 text-emerald-200 font-semibold text-sm sm:text-base">

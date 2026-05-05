@@ -61,10 +61,10 @@ export default function HomePage() {
                   id="lead-form-heading"
                   className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2 sm:mb-3"
                 >
-                  Get the free preview ebook
+                  Tell me when enrollment opens
                 </h2>
                 <p className="text-slate-600 text-sm sm:text-base">
-                  Receptor biology, endogenous ligands, and signaling — distilled. 21+ only.
+                  Get notified when the May 2026 cohort opens for sign-ups. 21+ only.
                 </p>
               </div>
               <RecaptchaProvider>

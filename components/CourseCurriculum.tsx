@@ -17,14 +17,14 @@ const lectures = [
     number: '03',
     title: 'Endogenous ligands',
     description:
-      "Anandamide and 2-AG — the body's on-demand modulators. Synthesis, release, receptor binding, and physiological effects.",
+      "Anandamide and 2-AG, the body's on-demand modulators. Synthesis, release, receptor binding, and physiological effects.",
     duration: '22 min',
   },
   {
     number: '04',
     title: 'Degradation enzymes',
     description:
-      'FAAH and MAGL — how they tune signal duration, and why their genetic variants change individual ECS tone.',
+      'FAAH and MAGL. How they tune signal duration, and why their genetic variants change individual ECS tone.',
     duration: '21 min',
   },
   {

@@ -8,8 +8,8 @@ export default function ProblemStatement() {
           </h2>
           <div className="bg-white rounded-2xl shadow-xl p-6 sm:p-8 mb-6 sm:mb-8">
             <p className="text-lg sm:text-xl text-slate-700 leading-relaxed mb-6">
-              The endocannabinoid system regulates mood, sleep, pain, immune function, learning, and memory —
-              <strong className="text-emerald-700"> yet it isn&apos;t taught in most medical schools</strong>.
+              The endocannabinoid system regulates mood, sleep, pain, immune function, learning, and memory.
+              <strong className="text-emerald-700"> Most medical schools don&apos;t teach it.</strong>
             </p>
             <p className="text-base sm:text-lg text-slate-600 mb-6">
               CB1 and CB2 receptors, anandamide, 2-AG, FAAH, and MAGL are foundational to mammalian
@@ -21,7 +21,7 @@ export default function ProblemStatement() {
                 &quot;A widespread neuromodulatory network playing a major role in tuning cognitive and
                 physiological processes.&quot;
                 <span className="block sm:inline text-xs sm:text-sm text-slate-600 mt-2 sm:mt-0 sm:ml-2">
-                  — PMC Review, 2024
+                  PMC Review, 2024
                 </span>
               </p>
             </div>
