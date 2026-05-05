@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { CheckCircle, Download, Mail } from 'lucide-react';
+import { CheckCircle, Download } from 'lucide-react';
 import Footer from '@/components/Footer';
 
 export const metadata = {
@@ -8,13 +8,12 @@ export const metadata = {
 };
 
 interface ThanksPageProps {
-  searchParams: Promise<{ email?: string; download?: string }>;
+  searchParams: Promise<{ email?: string }>;
 }
 
 export default async function ThanksPage({ searchParams }: ThanksPageProps) {
   const params = await searchParams;
   const email = params.email ?? '';
-  const downloadUrl = params.download ?? null;
 
   return (
     <>
@@ -29,43 +28,34 @@ export default async function ThanksPage({ searchParams }: ThanksPageProps) {
             </h1>
             {email && (
               <p className="text-sm sm:text-base text-slate-600 mb-5 sm:mb-6">
-                We&apos;ll send course details and updates to{' '}
+                We&apos;ll send course updates to{' '}
                 <span className="font-semibold text-slate-800">{email}</span>.
               </p>
             )}
 
-            {downloadUrl ? (
-              <div className="bg-amber-50 border-l-4 border-amber-400 rounded-lg p-4 sm:p-6 text-left mb-5 sm:mb-6">
-                <p className="text-amber-900 font-semibold mb-3 flex items-center gap-2 text-sm sm:text-base">
-                  <Mail className="w-4 h-4 sm:w-5 sm:h-5" aria-hidden="true" />
-                  Save this link or download now
-                </p>
-                <p className="text-amber-900 text-xs sm:text-sm mb-4">
-                  This download link is only valid for 24 hours. Bookmark it or grab the PDF
-                  immediately.
-                </p>
-                <a
-                  href={downloadUrl}
-                  className="inline-flex items-center justify-center gap-2 min-h-11 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700"
-                >
-                  <Download className="w-5 h-5" aria-hidden="true" />
-                  <span>Download the preview ebook</span>
-                </a>
-              </div>
-            ) : (
-              <div className="bg-slate-50 rounded-lg p-4 sm:p-6 text-left mb-5 sm:mb-6">
-                <p className="text-slate-700 text-sm sm:text-base">
-                  Look for an email from us in the next 48 hours with course access.
-                </p>
-              </div>
-            )}
+            <div className="bg-slate-50 rounded-lg p-4 sm:p-6 text-left mb-5 sm:mb-6">
+              <p className="text-slate-700 text-sm sm:text-base">
+                Look for an email from us when the May 2026 cohort opens for sign-ups. In the
+                meantime, the preview ebook is yours to read.
+              </p>
+            </div>
 
-            <Link
-              href="/"
-              className="inline-block text-sm sm:text-base text-emerald-700 hover:text-emerald-900 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 rounded"
+            <a
+              href="/ebook/ecs-specialization"
+              className="inline-flex items-center justify-center gap-2 min-h-11 bg-emerald-600 hover:bg-emerald-500 text-white font-bold px-6 py-3 rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-700 mb-5 sm:mb-6"
             >
-              ← Back to the course page
-            </Link>
+              <Download className="w-5 h-5" aria-hidden="true" />
+              <span>Download the preview ebook</span>
+            </a>
+
+            <div>
+              <Link
+                href="/"
+                className="text-sm sm:text-base text-emerald-700 hover:text-emerald-900 underline underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 rounded"
+              >
+                ← Back to the course page
+              </Link>
+            </div>
           </div>
         </div>
       </main>

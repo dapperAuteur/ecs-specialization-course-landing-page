@@ -33,12 +33,20 @@ export default function Hero() {
               Specialization Program
             </span>
           </div>
-          <a
-            href="#lead-form"
-            className="inline-block min-h-11 px-8 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
-          >
-            Get the free preview ebook
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4">
+            <a
+              href="/ebook/ecs-specialization"
+              className="inline-block min-h-11 px-8 py-3 rounded-lg bg-emerald-500 hover:bg-emerald-400 text-emerald-950 font-bold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Download the free ebook
+            </a>
+            <a
+              href="#lead-form"
+              className="inline-block min-h-11 px-8 py-3 rounded-lg bg-white/15 hover:bg-white/25 backdrop-blur-sm text-white font-semibold transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-white"
+            >
+              Notify me when enrollment opens
+            </a>
+          </div>
         </div>
       </div>
     </section>
