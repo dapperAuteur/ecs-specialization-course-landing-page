@@ -14,9 +14,9 @@ import { downloadLog } from '@/db/schema';
  * email is NOT required (decoupled from the lead form per BAM lock 2026-05-04).
  *
  * Status codes:
- *   200 — PDF found, streamed
- *   404 — slug doesn't match any PDF on disk
- *   500 — unreadable file
+ *   200: PDF found, streamed
+ *   404: slug doesn't match any PDF on disk
+ *   500: unreadable file
  *
  * Headers:
  *   Cache-Control: public, max-age=3600 (the ebook isn't sensitive)
