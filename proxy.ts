@@ -8,6 +8,7 @@ import { COOKIE_NAME, verifyCookieValue } from '@/lib/age-gate';
  *   /age-gate*       : the attestation page itself
  *   /safety*         : mental-health resources, must be reachable for anyone
  *                      in crisis regardless of age attestation
+ *   /terms, /privacy : legal pages must be readable before attesting
  *   /api/*           : server endpoints (server-side verifies its own way)
  *   /thanks          : post-submit confirmation (already attested)
  *   /_next/*, static : assets
@@ -23,6 +24,8 @@ export function proxy(req: NextRequest) {
   if (
     pathname.startsWith('/age-gate') ||
     pathname.startsWith('/safety') ||
+    pathname === '/terms' ||
+    pathname === '/privacy' ||
     pathname.startsWith('/api') ||
     pathname === '/thanks' ||
     pathname.startsWith('/_next')
