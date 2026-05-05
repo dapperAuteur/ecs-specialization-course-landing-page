@@ -22,10 +22,6 @@ const envSchema = z.object({
   INBOX_INGEST_SECRET: z.string().min(32),
   INBOX_SOURCE_SLUG: z.literal('betterbud-ecs'),
 
-  // Ebook delivery (Phase 8)
-  EBOOK_JWT_SECRET: z.string().min(32),
-  EBOOK_BASE_URL: z.string().url(),
-
   // Age-gate (Phase 9; per task #21 §E)
   AGE_GATE_COOKIE_SECRET: z.string().min(32),
 });

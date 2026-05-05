@@ -1,15 +1,15 @@
 import { pgTable, uuid, text, jsonb, timestamp, boolean } from 'drizzle-orm/pg-core';
 
 /**
- * Lead capture table. One row per public form submission.
+ * Lead capture table. One row per public form submission (people opting in
+ * for enrollment notifications).
  *
- * Schema rationale: fields preserved from the prior Mongoose model (firstName/lastName
- * flattened to single `name`; phone/interest/industry_roles preserved as ECS-specific
- * custom fields). Compliance fields (age_attested, consent_log) added per ecosystem
- * guardrails §3 + the 21+ requirement on this repo. Integration fields
- * (sent_to_inbox_at, ebook_delivered_at) added for the Phase 6/8 webhook + ebook
- * delivery flows. `keap_contact_id` deferred to backlog (see plans/future/keap-
- * integration.md once it lands in Phase 12).
+ * The ebook is decoupled from this table: it's served publicly (gated only
+ * by the 21+ attestation cookie) and not tied to a lead row. If we ever
+ * want per-download analytics, add a separate `download_log` table or
+ * re-introduce `ebook_delivered_at` here.
+ *
+ * `keap_contact_id` deferred to backlog (see plans/future/keap-integration.md).
  */
 export const lead = pgTable('lead', {
   id: uuid('id').primaryKey().defaultRandom(),
@@ -23,7 +23,6 @@ export const lead = pgTable('lead', {
   recaptchaScore: text('recaptcha_score'),
   receivedAt: timestamp('received_at', { withTimezone: true }).notNull().defaultNow(),
   sentToInboxAt: timestamp('sent_to_inbox_at', { withTimezone: true }),
-  ebookDeliveredAt: timestamp('ebook_delivered_at', { withTimezone: true }),
   ageAttested: boolean('age_attested').notNull().default(false),
   consentLog: jsonb('consent_log').$type<{
     attested_at: string;

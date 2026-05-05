@@ -1,8 +1,8 @@
-# Ebook PDFs (non-public)
+# Ebook PDFs
 
-Drop ebook PDFs here as `<slug>.pdf`. The signed-JWT route at
+Drop ebook PDFs here as `<slug>.pdf`. The route at
 [`app/ebook/[slug]/route.ts`](../ebook/[slug]/route.ts) reads from this
-directory at runtime; nothing else does.
+directory and streams the file.
 
 ## Current slugs
 
@@ -10,16 +10,16 @@ directory at runtime; nothing else does.
 |---|---|---|
 | `ecs-specialization` | `ecs-specialization.pdf` | **pending** (see witus user-task `22-deliver-ecs-ebook-pdf.md`) |
 
-When the PDF is missing, the route returns 503 with a friendly message
-("Ebook delivery is temporarily unavailable…") instead of 404, so users on
-24-hour download links don't get told their token is invalid when the real
-issue is config.
+When the PDF is missing the route returns 404.
 
 ## Why not `public/`?
 
-`public/` is unconditionally crawlable. Putting ebook PDFs there would let
-anyone with the URL (or anyone scraping a sitemap) download the file
-without going through the form. The JWT route + `app/ebooks/` location is
-the only access path: token verifies → server reads file from this directory
-→ streams with `Cache-Control: private, no-store` + `X-Robots-Tag: noindex,
-nofollow`.
+`public/` is a static asset directory served directly by Next, which would
+let the PDF be reached without going through the age-gate proxy. Putting
+the PDFs under `app/ebooks/` and reading them through a route handler
+ensures every download goes through `proxy.ts` first and is gated on the
+21+ attestation cookie.
+
+The download itself is **public for any 21+-attested visitor**: no token, no
+form submission, no email. Email collection happens on the lead form for
+people who want enrollment notifications. That is a separate flow.
