@@ -24,6 +24,21 @@ const envSchema = z.object({
 
   // Age-gate (Phase 9; per task #21 §E)
   AGE_GATE_COOKIE_SECRET: z.string().min(32),
+
+  // Error monitoring: Better Stack, which speaks the Sentry ingest protocol.
+  // Every one of these is OPTIONAL and the app is fully inert without them, so an unprovisioned
+  // deploy behaves exactly as it does today (see sentry.server.config.ts).
+  // Declared here so they are documented and shape-checked at build. The Sentry configs read
+  // process.env directly instead of calling getEnv(), because they run at process boot ahead of
+  // this reader and the error-reporting path must never be the thing that throws.
+  SENTRY_DSN: z.string().url().optional(),
+  NEXT_PUBLIC_SENTRY_DSN: z.string().url().optional(),
+  SENTRY_ENVIRONMENT: z.string().min(1).optional(),
+  NEXT_PUBLIC_SENTRY_ENVIRONMENT: z.string().min(1).optional(),
+  // Build-time source-map upload only. A missing token means minified stack traces, not a failure.
+  SENTRY_ORG: z.string().min(1).optional(),
+  SENTRY_PROJECT: z.string().min(1).optional(),
+  SENTRY_AUTH_TOKEN: z.string().min(1).optional(),
 });
 
 export type Env = z.infer<typeof envSchema>;
