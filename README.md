@@ -25,6 +25,8 @@ Sits alongside [CentenarianOS](https://centenarianos.com) (the longevity OS that
 | Webhook | HMAC-SHA256 to `inbox.witus.online/api/ingest` |
 | Ebook delivery | Signed JWT (24h) via `/ebook/[slug]` route |
 | Analytics | Vercel Analytics |
+| Error monitoring | Better Stack via the Sentry SDK, inert unless a DSN is set |
+| Tests | Vitest (`npm test`) |
 | Hosting | Vercel |
 
 ## Quick Start
@@ -36,6 +38,8 @@ npm run db:push                    # creates lead table on Neon
 npm run dev
 ```
 
+Other scripts: `npm run typecheck` (tsc), `npm run lint` (eslint), `npm test` (vitest).
+
 Open [http://localhost:3000](http://localhost:3000). The age-gate redirects you to `/age-gate` first. Attest 21+ and you'll be sent to the landing page.
 
 ## Project Structure
@@ -44,6 +48,7 @@ Open [http://localhost:3000](http://localhost:3000). The age-gate redirects you 
 ecs-specialization-course-landing-page/
 ├── app/
 │   ├── layout.tsx              # Root layout, metadata, OG, Vercel Analytics
+│   ├── global-error.tsx        # Root error boundary, reports to Better Stack
 │   ├── page.tsx                # Landing page (Server Component) + Course JSON-LD
 │   ├── opengraph-image.tsx     # Dynamic 1200×630 OG image (placeholder)
 │   ├── sitemap.ts, robots.ts   # SEO
@@ -67,11 +72,25 @@ ecs-specialization-course-landing-page/
 │   ├── recaptcha.ts            # reCAPTCHA v3 server-side verify
 │   ├── age-gate.ts             # Signed cookie mint + verify
 │   ├── ebook.ts                # JWT mint + verify
-│   └── inbox.ts                # HMAC-signed outbound webhook
+│   ├── inbox.ts                # HMAC-signed outbound webhook
+│   └── sentry-scrub.ts         # beforeSend PII/credential scrubber
+├── instrumentation.ts          # Sentry per-runtime load + onRequestError
+├── instrumentation-client.ts   # Browser-runtime Sentry init
+├── sentry.server.config.ts     # Node-runtime Sentry init (DSN-guarded)
+├── sentry.edge.config.ts       # Edge-runtime Sentry init (DSN-guarded)
+├── tests/sentry-scrub.test.ts  # Vitest suite for the scrubber
 ├── proxy.ts                    # Next 16 age-gate enforcement
 ├── scripts/validate-env.ts     # Eager build-time env validation
 └── drizzle.config.ts           # drizzle-kit config
 ```
+
+## Error Monitoring
+
+Crashes report to [Better Stack](https://betterstack.com), which speaks the Sentry ingest protocol, so the wiring is the standard `@sentry/nextjs` setup. Errors only: no tracing, no session replay, and `sendDefaultPii: false`.
+
+**It is off until a DSN exists.** Every init is guarded on `SENTRY_DSN` / `NEXT_PUBLIC_SENTRY_DSN`, so with those unset the SDK never initialises, nothing is sent, and the app builds and runs unchanged. See `.env.example` for the full var list.
+
+Because a crash report is a copy of request context handed to a third party, everything passes through `beforeSend` in [lib/sentry-scrub.ts](lib/sentry-scrub.ts) first. It strips the lead email (which rides in `/thanks?email=...`, so it lands in both `request.url` and the separate `request.query_string`), the 21+ attestation cookie, the reCAPTCHA token, the inbox HMAC signature, and Neon credentials. It deliberately KEEPS what you triage with: the host, the route, status and Postgres error codes, the reCAPTCHA score, and the public ebook slug. Both directions are asserted in [tests/sentry-scrub.test.ts](tests/sentry-scrub.test.ts) (`npm test`), because a scrubber that redacts everything is as broken as one that redacts nothing.
 
 ## Deployment
 
