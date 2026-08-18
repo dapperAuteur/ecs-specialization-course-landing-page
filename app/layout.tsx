@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Geist, Geist_Mono } from 'next/font/google';
 import { Analytics } from '@vercel/analytics/next';
+import { PostHogProvider } from '@/lib/analytics/posthog-provider';
 import './globals.css';
 
 const geistSans = Geist({
@@ -61,6 +62,13 @@ export default function RootLayout({
         </a>
         {children}
         <Analytics />
+        {/* Env is read here, in the Server Component, and passed down — the client
+            component must not read process.env. `?? null` is the supported keyless
+            state: with no key set the app renders normally and capture is off. */}
+        <PostHogProvider
+          apiKey={process.env.NEXT_PUBLIC_POSTHOG_KEY ?? null}
+          apiHost="/ingest"
+        />
       </body>
     </html>
   );
