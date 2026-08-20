@@ -1,0 +1,52 @@
+/**
+ * Event taxonomy for the ECS Specialization course landing page.
+ *
+ * The ecosystem shares ONE PostHog project, separated by the `app` property that
+ * posthog-provider registers on load. Two rules keep that project readable, and both
+ * are cheap now and expensive to retrofit once data has landed:
+ *
+ *   1. `snake_case`, object first, verb in past tense — `lead_submitted`.
+ *   2. NEVER put the app name in the event name. `ecs_lead_submitted` is wrong: it
+ *      makes the same action from two apps look like two events and kills the
+ *      cross-app comparison that sharing a project exists to enable. The `app`
+ *      property already carries that.
+ *
+ * Shared lifecycle events (the SHARED_EVENTS block) use identical names in every
+ * ecosystem app, so "where do people fall out of sign-in" is answerable across all of
+ * them at once. Do not rename these here without renaming them everywhere.
+ *
+ * See gemini/witus/plans/26-posthog-ecosystem-rollout.md for the full contract.
+ */
+
+/** This app's slug. Every event carries it. */
+export const ANALYTICS_APP = "ecs-course-lp";
+
+/**
+ * Events with identical names across every ecosystem app. Names are contractual.
+ */
+export const SHARED_EVENTS = {
+  signinStarted: "signin_started",
+  signinSucceeded: "signin_succeeded",
+  signinFailed: "signin_failed",
+} as const;
+
+/**
+ * Events specific to this landing page. It is a phase-1 conversion surface — its one
+ * job is turning visits into course-interest signups — so the numbers that matter are
+ * ratios around the lead form. Ratios between events stay valid even though
+ * `persistence: "memory"` distorts absolute visitor counts.
+ */
+export const EVENTS = {
+  /** The lead form was submitted and accepted. Carries `interest` (slug) and
+   *  `roleCount` — never the email/name/phone the form collects. */
+  leadSubmitted: "lead_submitted",
+  /** The lead form was submitted and rejected. Carries `reason` — a coarse category
+   *  (`recaptcha_unready`, `server_rejected`, `exception`), never the message text. */
+  leadSubmitFailed: "lead_submit_failed",
+  /** An explicit route view. capture_pageview is off — Next's client router would
+   *  fire it once and then lie — so route changes are reported deliberately. */
+  routeViewed: "route_viewed",
+  ...SHARED_EVENTS,
+} as const;
+
+export type EventName = (typeof EVENTS)[keyof typeof EVENTS];

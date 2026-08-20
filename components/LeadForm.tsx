@@ -8,6 +8,8 @@ import { z } from 'zod';
 import { useGoogleReCaptcha } from 'react-google-recaptcha-v3';
 import { ArrowRight, AlertTriangle, CheckCircle, Loader2 } from 'lucide-react';
 import { submitLead, type SubmissionResult } from '@/app/actions';
+import { capture } from '@/lib/analytics/capture';
+import { EVENTS } from '@/lib/analytics/events';
 
 const formSchema = z.object({
   email: z.string().trim().toLowerCase().email('Enter a valid email address'),
@@ -61,6 +63,7 @@ export default function LeadForm() {
           if (process.env.NODE_ENV === 'development') {
             token = 'dev-bypass';
           } else {
+            capture(EVENTS.leadSubmitFailed, { reason: 'recaptcha_unready' });
             setSubmitError('Verification is still loading. Please try again in a moment.');
             return;
           }
@@ -76,12 +79,20 @@ export default function LeadForm() {
         });
 
         if (result.ok) {
+          // The conversion this page exists to produce. Interest is a slug and
+          // roleCount a number — never the email/name/phone the form collects.
+          capture(EVENTS.leadSubmitted, {
+            interest: values.interest && values.interest.length > 0 ? values.interest : null,
+            roleCount: (values.industryRoles ?? []).length,
+          });
           router.push(result.redirectTo);
         } else {
+          capture(EVENTS.leadSubmitFailed, { reason: 'server_rejected' });
           setSubmitError(result.message);
         }
       } catch (err) {
         console.error('[LeadForm] submit failed:', err);
+        capture(EVENTS.leadSubmitFailed, { reason: 'exception' });
         setSubmitError('Something went wrong. Please try again in a minute.');
       }
     });
