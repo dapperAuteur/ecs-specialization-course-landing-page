@@ -9,6 +9,7 @@ import FAQ from '@/components/FAQ';
 import LeadForm from '@/components/LeadForm';
 import RecaptchaProvider from '@/components/RecaptchaProvider';
 import Footer from '@/components/Footer';
+import SiteHeader from '@/components/SiteHeader';
 
 const courseJsonLd = {
   '@context': 'https://schema.org',
@@ -116,6 +117,7 @@ export default function HomePage() {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(faqJsonLd) }}
       />
+      <SiteHeader />
       <main id="main" className="flex-1">
         <Hero />
         <Stats />
